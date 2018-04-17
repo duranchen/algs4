@@ -21,7 +21,6 @@ public class Insertion {
             T temp = a[i];
             int j = i;
             for (; j > 0; j--) {
-
                 if (less(temp, a[j - 1])) {
                     a[j] = a[j - 1];
                 } else {
