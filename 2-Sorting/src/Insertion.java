@@ -17,18 +17,16 @@ public class Insertion {
 //        }
         // advanced version - move elements no exchange
         for (int i = 1; i < N; i++) {
-
-            T temp = a[i];
+            T e = a[i];
             int j = i;
             for (; j > 0; j--) {
-                if (less(temp, a[j - 1])) {
+                if (less(e, a[j - 1])) {
                     a[j] = a[j - 1];
                 } else {
-
                     break;
                 }
             }
-            a[j] = temp;
+            a[j] = e;
         }
     }
 
@@ -41,7 +39,6 @@ public class Insertion {
             StdOut.print(a[i] + " ");
         }
         StdOut.println();
-
     }
 
     private static <T extends Comparable<T>> void exch(T[] a, int i, int j) {

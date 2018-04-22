@@ -1,5 +1,3 @@
-
-
 import edu.princeton.cs.algs4.*;
 public class Stopwatch {
     private final long start;
