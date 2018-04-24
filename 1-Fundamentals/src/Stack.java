@@ -81,10 +81,15 @@ public class Stack<Item> implements Iterable<Item> {
 
     public static void main(String[] args) {
 
-        Stack<Integer> s = new Stack();
-        s.push(1);
+        Stack<Integer> s = new Stack<Integer>();
+
+        for(int i =0 ;i< 10;i++)
+        {
+            s.push(i);
+        }
+
         s.pop();
-        s.push(2);
+
         for (int i : s
                 ) {
             StdOut.println(i);
