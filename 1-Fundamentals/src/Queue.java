@@ -35,6 +35,7 @@ public class Queue<Item> implements Iterable<Item> {
             tail.next = newNode;
             tail = newNode;
         }
+        n++;
 
     }
 
@@ -45,6 +46,10 @@ public class Queue<Item> implements Iterable<Item> {
         Item item = head.item;
         head = head.next;
 
+        if(isEmpty()) {
+            tail = null;
+        }
+        n--;
         return item;
     }
 
@@ -100,7 +105,7 @@ public class Queue<Item> implements Iterable<Item> {
                 ) {
             StdOut.println(i);
         }
-
+        StdOut.println("Queue Size: "+q.size());
     }
 
 }
