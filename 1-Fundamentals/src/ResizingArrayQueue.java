@@ -3,15 +3,17 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ResizingArrayQueue<Item> implements Iterable<Item> {
+// Loop Queue
+public class ResizingArrayQueue<Item> implements Iterable<Item>, Queue<Item> {
     private Item[] queue;
-    private int head, tail;
+    private int first;
+    private int last;  // next available slot
     private int N;
 
     public ResizingArrayQueue() {
         queue = (Item[]) new Object[2];
-        head = 0;
-        tail = 0;
+        first = 0;
+        last = 0;
         N = 0;
     }
 
@@ -21,11 +23,10 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
             resize(2 * queue.length);
         }
 
-        queue[tail++] = item;
+        queue[last++] = item;
 
-
-        if (tail == queue.length) {
-            tail = 0;
+        if (last == queue.length) {
+            last = 0;
         }
         N++;
     }
@@ -36,13 +37,13 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException("Queue underflow");
         }
 
-        Item item = queue[head];
-        queue[head] = null;
-        head++;
+        Item item = queue[first];
+        queue[first] = null;
+        first++;
         N--;
 
-        if (head == queue.length) {
-            head = 0;
+        if (first == queue.length) {
+            first = 0;
         }
 
         if (N > 0 && N < queue.length / 4) {
@@ -50,6 +51,13 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
         }
         return item;
 
+    }
+
+    public Item peek() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue underflow");
+        }
+        return queue[first];
     }
 
     public Boolean isEmpty() {
@@ -68,12 +76,12 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
 
         Item[] temp = (Item[]) new Object[max];
         for (int i = 0; i <= N; i++) {
-            temp[i] = queue[(head + i) % queue.length];
+            temp[i] = queue[(first + i) % queue.length];
         }
         queue = temp;
 
-        head = 0;
-        tail = N;
+        first = 0;
+        last = N;
 
     }
 
@@ -96,7 +104,7 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
                 throw new NoSuchElementException();
             }
 
-            int p = (head + i) % queue.length;
+            int p = (first + i) % queue.length;
             i++;
             return queue[p];
         }
@@ -107,15 +115,32 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
         }
     }
 
-    public static void main(String[] args) {
-        ResizingArrayQueue<Integer> q = new ResizingArrayQueue<Integer>();
-        q.enqueue(1);
-        q.enqueue(2);
-        q.dequeue();
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
 
-        for (int i: q
-             ) {
-            StdOut.println(i);
+        sb.append(String.format("Queue Size:%d, Capacity:%d\n", N, queue.length));
+
+        sb.append("first->[");
+        for (int i = first; i != last; i = (i + 1) % queue.length) {
+            sb.append(queue[i]);
+            if (i != last - 1)
+                sb.append(',');
         }
+        sb.append("]<-last");
+
+        return sb.toString();
+    }
+
+
+    public static void main(String[] args) {
+        ResizingArrayQueue<Integer> q = new ResizingArrayQueue<>();
+        for (int i = 0; i < 10; i++) {
+            q.enqueue(i);
+        }
+
+
+        System.out.println(q);
+
     }
 }
