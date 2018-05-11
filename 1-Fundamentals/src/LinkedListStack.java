@@ -3,68 +3,52 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListQueue<Item> implements Iterable<Item>,Queue<Item> {
+public class LinkedListStack<Item> implements Iterable<Item>,Stack<Item> {
 
     private class Node {
-        private Item item;
-        private Node next;
+        Item item;
+        Node next;
     }
 
+    private Node first;
     private int n;
 
-    private Node first;
-    private Node last;
-
-    public LinkedListQueue() {
+    public LinkedListStack() {
         first = null;
-        last = null;
         n = 0;
     }
 
-    public void enqueue(Item item) {
+    public void push(Item item) {
         Node newNode = new Node();
         newNode.item = item;
-        newNode.next = null;
+        newNode.next = first;
 
-        if (isEmpty()) {
-            first = newNode;
-            last = newNode;
-
-        } else {
-            last.next = newNode;
-            last = newNode;
-        }
+        first = newNode;
         n++;
-
     }
 
-    public Item dequeue() {
+    public Item pop() {
         if (isEmpty()) {
-            throw new NoSuchElementException("LinkedListQueue is Empty");
+            throw new NoSuchElementException("Stackunderflow");
         }
         Item item = first.item;
-        Node oldFirst = first;
         first = first.next;
-        oldFirst.next = null;
-
-        if(isEmpty()) {
-            last = null;
-        }
         n--;
+
         return item;
     }
 
-    public Item peek()
-    {
+    @Override
+    public Item peek() {
         return first.item;
+    }
+
+    public boolean isEmpty() {
+        return first == null;
     }
 
     public int size() {
         return n;
-    }
-
-    public Boolean isEmpty() {
-        return first == null;
     }
 
     @Override
@@ -99,19 +83,20 @@ public class LinkedListQueue<Item> implements Iterable<Item>,Queue<Item> {
         }
     }
 
-
     public static void main(String[] args) {
-        LinkedListQueue<Integer> q = new LinkedListQueue<Integer>();
-        for (int i = 0; i < 10; i++) {
-            q.enqueue(i);
+
+        LinkedListStack<Integer> s = new LinkedListStack<Integer>();
+
+        for(int i =0 ;i< 10;i++)
+        {
+            s.push(i);
         }
 
-        q.dequeue();
-        for (int i : q
+        s.pop();
+
+        for (int i : s
                 ) {
             StdOut.println(i);
         }
-        StdOut.println("LinkedListQueue Size: "+q.size());
     }
-
 }

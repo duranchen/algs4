@@ -2,7 +2,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Iterator;
 
-public class ResizingArrayStack<Item> implements Iterable<Item> {
+public class ResizingArrayStack<Item> implements Iterable<Item>,Stack<Item> {
 
     private Item[] stack;
     private int N;
@@ -24,6 +24,11 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
         return item;
     }
 
+    @Override
+    public Item peek() {
+        return stack[N-1];
+    }
+
     public void push(Item item) {
         if (N == stack.length) {
             resize(2 * stack.length);
@@ -35,7 +40,7 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
 
     private void resize(int max) {
         Item[] copy = (Item[]) new Object[max];
-        for (int i = 0; i < stack.length; i++) {
+        for (int i = 0; i < N; i++) {
             copy[i] = stack[i];
         }
 

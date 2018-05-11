@@ -20,17 +20,45 @@ public class Main {
         return escapedTime;
     }
 
+    private static double testStack(Stack<Integer> s, int count)
+    {
+        Stopwatch sw = new Stopwatch();
+
+        Random rd = new Random();
+
+        for (int i = 0; i < count; i++) {
+            s.push(rd.nextInt());
+        }
+
+        for (int i = 0; i < count; i++) {
+            s.pop();
+        }
+
+        double escapedTime = sw.elapsedTime();
+
+        return escapedTime;
+    }
+
     public static void main(String[] args) {
-        ResizingArrayQueue<Integer> raq = new ResizingArrayQueue<>();
-
-        LinkedListQueue<Integer> llq = new LinkedListQueue<>();
-
+//        ResizingArrayQueue<Integer> raq = new ResizingArrayQueue<>();
+//        LinkedListQueue<Integer> llq = new LinkedListQueue<>();
+//
         int count = 10000000;
+//
+//        double queueTime = testQueue(raq, count);
+//        double queueTime2 = testQueue(llq, count);
+//
+//        System.out.println("ResizingArrayQueue time: " + queueTime);
+//        System.out.println("LinkedListQueue time: " + queueTime2);
 
-        double time = testQueue(raq, count);
-        double time2 = testQueue(llq, count);
+        ResizingArrayStack<Integer> ras = new ResizingArrayStack<>();
+        LinkedListStack<Integer> lls = new LinkedListStack<>();
 
-        System.out.println("ResizingArrayQueue time: " + time);
-        System.out.println("LinkedListQueue time: " + time2);
+        double stackTime = testStack(ras,count);
+        double stackTime2 = testStack(lls,count);
+        System.out.println("ResizingArrayStack time: " + stackTime);
+        System.out.println("LinkedListStack time: " + stackTime2);
+
+
     }
 }
