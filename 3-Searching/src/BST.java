@@ -97,6 +97,6 @@ public class BST<Item extends Comparable<Item>> {
        bst.put(3);
 
        System.out.println(bst.size());
-       System.out.println(bst.get(5));
+       System.out.println(bst.get(2));
    }
 }
