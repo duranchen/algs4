@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 public class BinarySearchST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 
     private Key[] keys;
@@ -19,7 +21,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> implements ST<Ke
         Key[] keysTmp = (Key[]) new Comparable[max];
         Value[] valuesTmp = (Value[]) new Object[max];
 
-        for (int i = 0; i < keys.length; i++) {
+        for (int i = 0; i < N; i++) {
             keysTmp[i] = keys[i];
             valuesTmp[i] = values[i];
         }
@@ -90,7 +92,25 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> implements ST<Ke
 
     @Override
     public void delete(Key key) {
+        int p = rank(key);
 
+        if (p < N && keys[p].equals(key)) {
+
+            for (int i = p; i < N - 1; i++) {
+                keys[i] = keys[i + 1];
+                values[i] = values[i + 1];
+            }
+
+            keys[N - 1] = null;
+            values[N - 1] = null;
+            N--;
+
+            if (N == keys.length / 4) {
+                resize(keys.length / 2);
+            }
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     @Override
@@ -180,6 +200,8 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> implements ST<Ke
         bsst.put('C', 4);
         bsst.put('B', 1);
         bsst.put('C', 0);
+        bsst.delete('B');
+        bsst.delete('A');
 
         System.out.println(bsst.get('C'));
         System.out.print(bsst);
